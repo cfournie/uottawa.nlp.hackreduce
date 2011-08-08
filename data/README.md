@@ -8,3 +8,4 @@ Directories
 
 - /misc/ - Contains miscellaneous data files
 - /misc/stoplists/ - Contains English stoplists
+- /nrc-emotions/ - NRC Word-Emotion Association Lexicon (do not distribute)
