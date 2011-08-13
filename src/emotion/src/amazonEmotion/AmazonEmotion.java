@@ -71,7 +71,7 @@ public class AmazonEmotion extends Configured implements Tool {
 	public static void main(String[] args) throws Exception {
 		
 		if (args.length != 2) {
-        	System.err.println("Usage: programName <input> <output> <emotionsFile>");
+        	System.err.println("Usage: programName <input> <output>");
         	System.exit(2);
         }
         
