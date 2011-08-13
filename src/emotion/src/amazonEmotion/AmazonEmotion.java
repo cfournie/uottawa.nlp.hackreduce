@@ -77,8 +77,6 @@ public class AmazonEmotion extends Configured implements Tool {
 			Properties props = new Properties();
 			props.put("annotators", "tokenize, ssplit, pos, lemma");
 			props.put("tokenizerOptions", "americanize=false");
-			// edu.stanford.nlp.models.pos-tagger.wsj3t0-18-bidirectional
-			props.put("pos.model", "bidirectional-wsj-0-18.tagger");
 			this.pipeline = new StanfordCoreNLP(props);
 		}
 		
