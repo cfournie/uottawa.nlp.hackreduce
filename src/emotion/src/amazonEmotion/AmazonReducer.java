@@ -32,7 +32,7 @@ public class AmazonReducer extends Reducer<DoubleWritable, DoubleArrayWritable, 
 					array[i] += d.get();
 					lineToPrint += myFormatter.format(d.get()) + "\t";
 				}
-				//context.write(new Text(""+key), new Text(lineToPrint));
+				context.write(new Text(""+key), new Text(lineToPrint));
 			}
 				
 

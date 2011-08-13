@@ -20,7 +20,7 @@ public class AmazonRecord {
 		// CSV header (parsing the inputString is based on this):
 		// exchange, stock_symbol, date, stock_price_open, stock_price_high, stock_price_low,
 		// 		stock_price_close, stock_volume, stock_price_adj_close
-		String[] attributes = inputString.split("\t");
+		String[] attributes = inputString.split("\t", 8);
 
 		if (attributes.length != 8)
 			throw new IllegalArgumentException(String.format("Input string given did not have 8 values in CSV format, contained %i values", attributes.length));
