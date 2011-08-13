@@ -20,6 +20,22 @@ import edu.stanford.nlp.pipeline.StanfordCoreNLP;
 import edu.stanford.nlp.util.CoreMap;
 
 public class ReviewMapper extends AmazonMapper<DoubleWritable, DoubleArrayWritable> {
+	
+	public enum MapCounters {
+		angerWordsTotal,
+		anticipationWordsTotal,
+		disgustWordsTotal,
+		fearWordsTotal,
+		joyWordsTotal,
+		sadnessWordsTotal,
+		surpriseWordsTotal,
+		trustWordsTotal,
+		noEmotionWordsTotal,
+		positiveWordsTotal,
+		negativeWordsTotal,
+		noSentimentWordsTotal,
+		reviewsTotal
+    }
 
 	public static HashSet<String> angerWords;			// 0
 	public static HashSet<String> anticipationWords;	// 1
@@ -66,8 +82,9 @@ public class ReviewMapper extends AmazonMapper<DoubleWritable, DoubleArrayWritab
 				words.add(token.get(LemmaAnnotation.class));
 			}
 		}
+		context.getCounter(MapCounters.reviewsTotal).increment(1);
 		
-		int[] counts = getEmoCounts(words);
+		int[] counts = getEmoCounts(words, context);
 		//String theScores = getScores(counts);
 		DoubleWritable[] theScores = getScores(counts);
 
@@ -93,7 +110,7 @@ public class ReviewMapper extends AmazonMapper<DoubleWritable, DoubleArrayWritab
 	 * @param words
 	 * @return
 	 */
-	private int[] getEmoCounts(List<String> words) {
+	private int[] getEmoCounts(List<String> words, Context context) {
 		int[] counts = new int[13];
 		int totalWords = 0;
 		//int totalWords2 = 0;
@@ -101,48 +118,60 @@ public class ReviewMapper extends AmazonMapper<DoubleWritable, DoubleArrayWritab
 			boolean foundEmo = false;
 			//boolean foundSenti = false;
 			if(angerWords.contains(word)){
+				context.getCounter(MapCounters.angerWordsTotal).increment(1);
 				counts[0]++;
 				foundEmo = true;
 			}
 			if(anticipationWords.contains(word)){
+				context.getCounter(MapCounters.anticipationWordsTotal).increment(1);
 				counts[1]++;
 				foundEmo = true;
 			}
 			if(disgustWords.contains(word)){
+				context.getCounter(MapCounters.disgustWordsTotal).increment(1);
 				counts[2]++;
 				foundEmo = true;
 			}
 			if(fearWords.contains(word)){
+				context.getCounter(MapCounters.fearWordsTotal).increment(1);
 				counts[3]++;
 				foundEmo = true;
 			}
 			if(joyWords.contains(word)){
+				context.getCounter(MapCounters.joyWordsTotal).increment(1);
 				counts[4]++;
 				foundEmo = true;
 			}
 			if(sadnessWords.contains(word)){
+				context.getCounter(MapCounters.sadnessWordsTotal).increment(1);
 				counts[5]++;
 				foundEmo = true;
 			}
 			if(surpriseWords.contains(word)){
+				context.getCounter(MapCounters.surpriseWordsTotal).increment(1);
 				counts[6]++;
 				foundEmo = true;
 			}
 			if(trustWords.contains(word)){
+				context.getCounter(MapCounters.trustWordsTotal).increment(1);
 				counts[7]++;
 				foundEmo = true;
 			}
 			if(noEmotionWords.contains(word)){
+				context.getCounter(MapCounters.noEmotionWordsTotal).increment(1);
 				counts[8]++;
 				foundEmo = true;
 			}
 			if(positiveWords.contains(word)){
+				context.getCounter(MapCounters.positiveWordsTotal).increment(1);
 				counts[9]++;
 			}
 			if(negativeWords.contains(word)){
+				context.getCounter(MapCounters.negativeWordsTotal).increment(1);
 				counts[10]++;
 			}
 			if(noSentimentWords.contains(word)){
+				context.getCounter(MapCounters.noSentimentWordsTotal).increment(1);
 				counts[11]++;
 			}
 			if(foundEmo){
