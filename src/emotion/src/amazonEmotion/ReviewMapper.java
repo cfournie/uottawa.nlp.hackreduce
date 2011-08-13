@@ -1,17 +1,16 @@
 package amazonEmotion;
 
 import java.io.BufferedReader;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Properties;
 
 import org.apache.hadoop.io.DoubleWritable;
-import org.apache.hadoop.mapreduce.Mapper.Context;
 
-import amazonEmotion.AmazonEmotion.DoubleArrayWritable;
 import edu.stanford.nlp.ling.CoreLabel;
 import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
 import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
@@ -45,7 +44,8 @@ public class ReviewMapper extends AmazonMapper<DoubleWritable, DoubleArrayWritab
 		props.put("annotators", "tokenize, ssplit, pos, lemma");
 		props.put("tokenizerOptions", "americanize=false");
 		this.pipeline = new StanfordCoreNLP(props);
-		loadEmotions(args[2]);
+		
+		loadEmotions();
 	}
 	
 
@@ -153,37 +153,40 @@ public class ReviewMapper extends AmazonMapper<DoubleWritable, DoubleArrayWritab
 		return counts;
 	}
 	
-	private  void loadEmotions(String directory) {
+	private  void loadEmotions() {
 		angerWords = new HashSet<String>();
-		loadWords(angerWords, directory + "/anger.txt");
+		loadWords(angerWords, "/anger.txt");
 		anticipationWords = new HashSet<String>();
-		loadWords(anticipationWords, directory + "/anticipation.txt");
+		loadWords(anticipationWords, "/anticipation.txt");
 		disgustWords = new HashSet<String>();
-		loadWords(disgustWords, directory + "/disgust.txt");
+		loadWords(disgustWords, "/disgust.txt");
 		fearWords = new HashSet<String>();
-		loadWords(fearWords, directory + "/fear.txt");
+		loadWords(fearWords, "/fear.txt");
 		joyWords = new HashSet<String>();
-		loadWords(joyWords, directory + "/joy.txt");
+		loadWords(joyWords, "/joy.txt");
 		sadnessWords = new HashSet<String>();
-		loadWords(sadnessWords, directory + "/sadness.txt");
+		loadWords(sadnessWords, "/sadness.txt");
 		surpriseWords = new HashSet<String>();
-		loadWords(surpriseWords, directory + "/surprise.txt");
+		loadWords(surpriseWords, "/surprise.txt");
 		trustWords = new HashSet<String>();
-		loadWords(trustWords, directory + "/trust.txt");
+		loadWords(trustWords, "/trust.txt");
 		noEmotionWords = new HashSet<String>();
-		loadWords(noEmotionWords, directory + "/noEmotion.txt");
+		loadWords(noEmotionWords, "/noEmotion.txt");
 
 		positiveWords = new HashSet<String>();
-		loadWords(positiveWords, directory + "/positive.txt");
+		loadWords(positiveWords, "/positive.txt");
 		negativeWords = new HashSet<String>();
-		loadWords(negativeWords, directory + "/negative.txt");
+		loadWords(negativeWords, "/negative.txt");
 		noSentimentWords = new HashSet<String>();
-		loadWords(noSentimentWords, directory + "/noSentiment.txt");
+		loadWords(noSentimentWords, "/noSentiment.txt");
 	}
 	
 	private static void loadWords(HashSet<String> wordSet, String fname) {
 		try {
-			BufferedReader br = new BufferedReader(new FileReader(fname));
+
+			InputStream is = ReviewMapper.class.getClass().getResourceAsStream(fname);
+		    InputStreamReader isr = new InputStreamReader(is);
+		    BufferedReader br = new BufferedReader(isr);
 	         
 			for ( ; ; ) {
 				String line = br.readLine();
