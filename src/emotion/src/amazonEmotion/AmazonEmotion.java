@@ -5,6 +5,9 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.text.DecimalFormat;
 import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Properties;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.conf.Configured;
@@ -20,6 +23,14 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
+
+import edu.stanford.nlp.ling.CoreLabel;
+import edu.stanford.nlp.ling.CoreAnnotations.LemmaAnnotation;
+import edu.stanford.nlp.ling.CoreAnnotations.SentencesAnnotation;
+import edu.stanford.nlp.ling.CoreAnnotations.TokensAnnotation;
+import edu.stanford.nlp.pipeline.Annotation;
+import edu.stanford.nlp.pipeline.StanfordCoreNLP;
+import edu.stanford.nlp.util.CoreMap;
 
 
 /**
@@ -57,6 +68,16 @@ public class AmazonEmotion extends Configured implements Tool {
 	}
 
 	public static class ReviewMapper extends AmazonMapper<DoubleWritable, DoubleArrayWritable> {
+
+		protected StanfordCoreNLP pipeline = null;
+		
+		public ReviewMapper()
+		{
+			super();
+			Properties props = new Properties();
+			props.put("annotators", "tokenize, ssplit, pos, lemma");
+			this.pipeline = new StanfordCoreNLP(props);
+		}
 		
 		// Our own made up key to send all counts to a single Reducer, so we can
 		// aggregate a total value.
@@ -68,7 +89,21 @@ public class AmazonEmotion extends Configured implements Tool {
 		@Override
 		protected void map(AmazonRecord record, Context context) throws IOException, InterruptedException {
 			String review = record.getReview();
-			String[] words = review.split("\\b");
+			
+			// Tokenize, sentence split, POS tag and lemmatize
+			LinkedList<String> words = new LinkedList<String>();
+			Annotation document = new Annotation(review);
+			this.pipeline.annotate(document);
+			List<CoreMap> sentences = document.get(SentencesAnnotation.class);
+			// For each sentence
+			for (CoreMap sentence : sentences) {
+				// For each token
+				for (CoreLabel token : sentence.get(TokensAnnotation.class)) {
+					// Add only the lemma
+					words.add(token.get(LemmaAnnotation.class));
+				}
+			}
+			
 			int[] counts = getEmoCounts(words);
 			//String theScores = getScores(counts);
 			DoubleWritable[] theScores = getScores(counts);
@@ -76,29 +111,6 @@ public class AmazonEmotion extends Configured implements Tool {
 			DoubleArrayWritable as = new DoubleArrayWritable(theScores);
 			
 			context.write(new DoubleWritable(record.getScore()), as);
-			
-			
-			//ONE_COUNT = new DoubleWritable(counts[0]);
-			//context.getCounter(Count.SCORE).increment(1);
-			//context.write(TOTAL_COUNT, ONE_COUNT);
-			
-		}
-
-		/**
-		 * Creates a String to return the results in
-		 * 
-		 * @param counts
-		 * @return
-		 */
-		private String getScoresString(int[] counts) {
-			if(counts[counts.length-1] == 0){
-				counts[counts.length-1] = 1;
-			}
-			String result = ""+(double)counts[0]/(double)counts[counts.length-1];
-			for(int i = 1; i < counts.length-1; i++){
-				result += "\t" + (double)counts[i]/(double)counts[counts.length-1];
-			}
-			return result;
 		}
 		
 		private DoubleWritable[] getScores(int[] counts) {
@@ -118,7 +130,7 @@ public class AmazonEmotion extends Configured implements Tool {
 		 * @param words
 		 * @return
 		 */
-		private int[] getEmoCounts(String[] words) {
+		private int[] getEmoCounts(List<String> words) {
 			int[] counts = new int[13];
 			int totalWords = 0;
 			//int totalWords2 = 0;
