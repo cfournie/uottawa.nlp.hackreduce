@@ -6,7 +6,7 @@ Building
 
 In the project directory run:
 
-ant built-jar
+ant build-jar
 
 
 Running
