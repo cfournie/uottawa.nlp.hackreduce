@@ -23,7 +23,7 @@ public class AmazonRecord {
 		String[] attributes = inputString.split("\t");
 
 		if (attributes.length != 8)
-			throw new IllegalArgumentException("Input string given did not have 9 values in CSV format");
+			throw new IllegalArgumentException(String.format("Input string given did not have 8 values in CSV format, contained %i values", attributes.length));
 
 		try {
 			setID1(attributes[0]);
