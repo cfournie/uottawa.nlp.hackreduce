@@ -1,0 +1,9 @@
+1.0	anger:0.075	anticipation:0.112	disgust:0.068	fear:0.064	joy:0.087	sadness:0.078	surprise:0.066	trust:0.128	noEmotion:0.676	positive:0.183	negative:0.143	noSentiment:0.672	
+1.5	anger:0.068	anticipation:0.187	disgust:0.066	fear:0.033	joy:0.252	sadness:0.041	surprise:0.158	trust:0.278	noEmotion:0.577	positive:0.345	negative:0.138	noSentiment:0.517	
+2.0	anger:0.057	anticipation:0.117	disgust:0.046	fear:0.054	joy:0.09	sadness:0.068	surprise:0.069	trust:0.133	noEmotion:0.692	positive:0.197	negative:0.119	noSentiment:0.684	
+2.5	anger:0.04	anticipation:0.181	disgust:0.023	fear:0.026	joy:0.258	sadness:0.034	surprise:0.11	trust:0.29	noEmotion:0.586	positive:0.349	negative:0.082	noSentiment:0.57	
+3.0	anger:0.051	anticipation:0.126	disgust:0.038	fear:0.053	joy:0.101	sadness:0.063	surprise:0.076	trust:0.142	noEmotion:0.688	positive:0.217	negative:0.105	noSentiment:0.678	
+3.5	anger:0.036	anticipation:0.127	disgust:0.028	fear:0.039	joy:0.231	sadness:0.045	surprise:0.083	trust:0.237	noEmotion:0.645	positive:0.343	negative:0.082	noSentiment:0.576	
+4.0	anger:0.045	anticipation:0.126	disgust:0.031	fear:0.049	joy:0.109	sadness:0.056	surprise:0.075	trust:0.147	noEmotion:0.687	positive:0.233	negative:0.092	noSentiment:0.676	
+4.5	anger:0.02	anticipation:0.161	disgust:0.008	fear:0.022	joy:0.208	sadness:0.021	surprise:0.096	trust:0.235	noEmotion:0.632	positive:0.328	negative:0.067	noSentiment:0.607	
+5.0	anger:0.039	anticipation:0.119	disgust:0.027	fear:0.043	joy:0.116	sadness:0.054	surprise:0.065	trust:0.146	noEmotion:0.687	positive:0.242	negative:0.08	noSentiment:0.678	
