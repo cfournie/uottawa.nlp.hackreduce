@@ -2,7 +2,7 @@ uOttawa NLP HackReduce Project
 ==============================
 
 We analyzed the sentiment of Amazon product reviews. We trends between the
-percentage of particular sentiment words and a review's reating of a product.
+percentage of particular sentiment words and a review's rating of a product.
 
 Directories
 -----------
