@@ -1,11 +1,13 @@
 uOttawa NLP HackReduce Project
 ==============================
 
-To collaborate, let's get our source all up here!
+We analyzed the sentiment of Amazon product reviews. We trends between the
+percentage of particular sentiment words and a review's reating of a product.
 
 Directories
 -----------
 
 - /data/ - Additional datasets or data files that we will be using
-- /libs/ - Libraries that we'll be using
+- /libs/ - Location to store libraries used
 - /src/ - Eclipse projects
+- /runs/ - Resulting output from 3 separate development milestones (the last being the most significant).
