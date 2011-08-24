@@ -3,7 +3,6 @@ uOttawa NLP HackReduce Project
 
 We analyzed the sentiment of Amazon product reviews. We trends between the
 percentage of particular sentiment words and a review's rating of a product.
-
 The Java code is very rough, but the data found in the /runs/ folders may
 be of interest, and scripts to convert it into Weka's ARFF format are
 provided.
